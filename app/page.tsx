@@ -1,9 +1,12 @@
 "use client";
-import { QueryReference, skipToken, useBackgroundQuery, useReadQuery } from "@apollo/client";
+import { createQueryPreloader, QueryReference, useReadQuery } from "@apollo/client";
 import { ErrorBoundary } from "react-error-boundary";
 import { GetBooksDocument, GetBooksQuery } from "../api/gql/graphql";
 import { Suspense, useEffect, useState } from "react";
+import { client } from "./apollo/ApolloClient";
 
+const preloader = createQueryPreloader(client);
+const GetBooksQueryRef = preloader(GetBooksDocument, {});
 const Book = (props: { queryRef: QueryReference<GetBooksQuery>; }) => {
     const { data } = useReadQuery(props.queryRef);
     return <ul>
@@ -27,19 +30,8 @@ const useMounted = () => {
     }, []);
     return mounted;
 }
-const fallbackRender = (props: { error: Error, resetErrorBoundary: () => void; refresh: () => void }) => {
-    return <div>
-        <button onClick={() => {
-            props.refresh();
-            props.resetErrorBoundary();
-        }}>Try again: {props.error.message}</button>
-    </div>
-}
 export default function Home() {
     const mounted = useMounted();
-    const [queryRef, {
-        refetch
-    }] = useBackgroundQuery(GetBooksDocument, mounted ? {} : skipToken);
     return <main style={{
         display: "flex",
         justifyContent: "center",
@@ -49,14 +41,9 @@ export default function Home() {
         flexDirection: "column",
     }}>
         <h1>Page</h1>
-        <ErrorBoundary fallbackRender={props => {
-            return fallbackRender({
-                ...props,
-                refresh: refetch
-            });
-        }}>
+        <ErrorBoundary fallback={<>Error</>}>
             <Suspense fallback={<BookPlaceholder/>}>
-                {queryRef ? <Book queryRef={queryRef}/> : <BookPlaceholder/>}
+                {GetBooksQueryRef ? <Book queryRef={GetBooksQueryRef}/> : <BookPlaceholder/>}
             </Suspense>
         </ErrorBoundary>
     </main>
