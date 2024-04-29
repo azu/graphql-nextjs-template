@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm run --parallel /^dev:.*/",
-    "dev:nex": "next dev",
+    "dev:next": "next dev",
     "dev:api": "tsx server/mock-server.ts",
     "codegen": "graphql-codegen --config graphql-codegen.ts",
     "build": "next build",
@@ -16,7 +16,8 @@
     "@apollo/client": "^3.10.1",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-error-boundary": "^4.0.13"
   },
   "devDependencies": {
     "@apollo/server": "^4.10.4",

@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ApolloWrapper } from "./apollo/ApolloWrapper";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "App",
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body><ApolloWrapper>{children}</ApolloWrapper></body>
+        <body><ApolloWrapper>
+            <Suspense fallback={<div>Loading...</div>}>
+                {children}
+            </Suspense>
+        </ApolloWrapper></body>
         </html>
     );
 }
