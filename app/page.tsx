@@ -1,8 +1,7 @@
 "use client";
-import { createQueryPreloader, QueryReference, skipToken, useBackgroundQuery, useReadQuery } from "@apollo/client";
+import { QueryReference, skipToken, useBackgroundQuery, useReadQuery } from "@apollo/client";
 import { ErrorBoundary } from "react-error-boundary";
 import { GetBooksDocument, GetBooksQuery } from "../api/gql/graphql";
-import { client } from "./apollo/ApolloClient";
 import { Suspense, useEffect, useState } from "react";
 
 const Book = (props: { queryRef: QueryReference<GetBooksQuery>; }) => {
@@ -10,15 +9,6 @@ const Book = (props: { queryRef: QueryReference<GetBooksQuery>; }) => {
     return <ul>
         {
             data?.books?.map((item) => (
-                <li key={item.id}>{item.title} by {item.author.name}</li>
-            ))
-        }
-    </ul>
-};
-const BookWithData = (props: { data?: GetBooksQuery }) => {
-    return <ul>
-        {
-            props?.data?.books?.map((item) => (
                 <li key={item.id}>{item.title} by {item.author.name}</li>
             ))
         }
@@ -47,7 +37,6 @@ const fallbackRender = (props: { error: Error, resetErrorBoundary: () => void; r
 }
 export default function Home() {
     const mounted = useMounted();
-    // const { data } = useSuspenseQuery(GetBooksDocument, mounted ? {} : skipToken);
     const [queryRef, {
         refetch
     }] = useBackgroundQuery(GetBooksDocument, mounted ? {} : skipToken);
@@ -66,8 +55,7 @@ export default function Home() {
                 refresh: refetch
             });
         }}>
-            <Suspense fallback={<>Loading</>}>
-                {/*{data ? <BookWithData data={data}/> : <BookPlaceholder/>}*/}
+            <Suspense fallback={<BookPlaceholder/>}>
                 {queryRef ? <Book queryRef={queryRef}/> : <BookPlaceholder/>}
             </Suspense>
         </ErrorBoundary>
