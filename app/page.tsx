@@ -6,7 +6,7 @@ import { Suspense, useEffect, useState } from "react";
 import { client } from "./apollo/ApolloClient";
 
 const preloader = createQueryPreloader(client);
-const GetBooksQueryRef = preloader(GetBooksDocument, {});
+const GetBooksQueryRef = typeof window !== "undefined" ? preloader(GetBooksDocument) : null;
 const Book = (props: { queryRef: QueryReference<GetBooksQuery>; }) => {
     const { data } = useReadQuery(props.queryRef);
     return <ul>
