@@ -46,7 +46,7 @@ jobs:
             2. エラーメッセージを元に修正する
             
             `;
-            core.summary.addRaw(message, true):
+            core.summary.addRaw(message, true);
             await core.summary.write();
 
 
