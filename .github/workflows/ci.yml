@@ -40,7 +40,7 @@ jobs:
         uses: ./.github/actions/playbook
         with:
           message: |
-            # {{ JOB_NAME }} が失敗しました
+            # jobs.${{ env.GITHUB_JOB }} が失敗しました
 
             ## 影響
             - 何が影響を受けるか
