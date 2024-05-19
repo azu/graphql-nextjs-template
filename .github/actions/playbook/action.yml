@@ -15,7 +15,7 @@ runs:
         script: |
           const message = process.env.INPUT_MESSAGE
             // {{ JOB_NAME }} 
-            .replace(/{{\s{0,5}JOB_NAME\s{0,5}}}/g, context.github.jobs[context.github.job].name);
+            .replace(/{{\s{0,5}JOB_NAME\s{0,5}}}/g, context.jobs[context.job.container.id].name);
           core.summary.addRaw(message, true);
           await core.summary.write();
           core.setFailed(message);
