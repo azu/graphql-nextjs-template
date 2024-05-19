@@ -40,7 +40,7 @@ jobs:
         uses: ./.github/actions/playbook
         with:
           message: |
-            # {{ github.workflow }} が失敗しました
+            # ${{ github.workflow }} が失敗しました
 
             ## 影響
             - 何が影響を受けるか
