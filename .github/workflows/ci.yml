@@ -33,26 +33,15 @@ jobs:
         with:
           comment-strategy: 'skip-insignificant'
           create-issue: false
-          # Optional, defaults to `github.token`.
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Playbook
+      - name: report
         if: failure()
-        uses: ./.github/actions/playbook
+        uses: ./.github/actions/report
         with:
           message: |
             # ${{ github.job }} が失敗しました
 
-            ## 影響
-            - 何が影響を受けるか
-
-            ## 調査方法
-            - Jobの落ちてるステップのエラーログを確認してください
-
-            ## 修正方法 
-            - どのように対応するか
-
-            ## 修正後の確認方法
-            - 修正後にどのように確認するか    
+            - 対応方法
 
 
 concurrency:
