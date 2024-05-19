@@ -15,6 +15,6 @@ runs:
         script: |
           const message = process.env.INPUT_MESSAGE;
           const firstLine = message.split(/\n/)[0].replace(/^#{1,5}\s{0,5}?/, "");
-          core.setFailed(firstLine);
+          core.setFailed(message);
           core.summary.addRaw(message, true);
           await core.summary.write();
