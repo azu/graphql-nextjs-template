@@ -2,8 +2,9 @@
 import { createQueryPreloader, QueryReference, useReadQuery } from "@apollo/client";
 import { ErrorBoundary } from "react-error-boundary";
 import { GetBooksDocument, GetBooksQuery } from "../api/gql/graphql";
-import { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { client } from "./apollo/ApolloClient";
+import Link from "next/link";
 
 const preloader = createQueryPreloader(client);
 const GetBooksQueryRef = typeof window !== "undefined" ? preloader(GetBooksDocument) : null;
@@ -46,5 +47,6 @@ export default function Home() {
                 {GetBooksQueryRef ? <Book queryRef={GetBooksQueryRef}/> : <BookPlaceholder/>}
             </Suspense>
         </ErrorBoundary>
+        <Link href={"/new-page"}>Go to new page</Link>
     </main>
 }

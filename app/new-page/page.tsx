@@ -1,4 +1,6 @@
+// @ts-expect-error
+import lodash from "lodash"
 
 export default function Home() {
-    return <>NEW PAGE</>;
+    return <>NEW PAGE:{lodash.version}</>;
 }
