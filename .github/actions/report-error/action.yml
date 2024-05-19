@@ -11,7 +11,7 @@ runs:
       if: failure()
       uses: actions/github-script@v7
       env:
-        INPUT_MESSAGE: ${{ input.message }}
+        INPUT_MESSAGE: ${{ inputs.message }}
       with:
         script: |
           const message = process.env.INPUT_MESSAGE;
