@@ -1,0 +1,19 @@
+name: 'Report Error'
+description: 'CIが落ちた時にどのように対応するべきかを書く'
+inputs:
+  message:
+    description: 'How to fix?'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: How to Fix?
+      if: failure()
+      uses: actions/github-script@v7
+      env:
+        INPUT_MESSAGE: ${{ input.message }}
+      with:
+        script: |
+          const message = process.env.INPUT_MESSAGE;
+          core.summary.addRaw(message, true);
+          await core.summary.write();
