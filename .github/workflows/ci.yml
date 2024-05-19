@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: pnpm/action-setup@v4.0.0
+      - uses: actions/setup-node@v4.0.2
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Analyze bundle sizes
+        uses: transferwise/actions-next-bundle-analyzer@v2
+        with:
+          working-directory: ./
+          comment-strategy: 'skip-insignificant'
+          create-issue: false
+          # Optional, defaults to `github.token`.
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
