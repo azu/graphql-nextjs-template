@@ -13,9 +13,7 @@ runs:
         INPUT_MESSAGE: ${{ inputs.message }}
       with:
         script: |
-          const message = process.env.INPUT_MESSAGE
-            // {{ JOB_ID }} 
-            .replace(/{{\s{0,5}JOB_ID\s{0,5}}}/g, context.job);
+          const message = process.env.INPUT_MESSAGE;
           core.summary.addRaw(message, true);
           await core.summary.write();
           core.setFailed(message);
