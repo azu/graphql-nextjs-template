@@ -35,18 +35,24 @@ jobs:
           create-issue: false
           # Optional, defaults to `github.token`.
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: How to Fix?
+      - name: Playbook
         if: failure()
-        uses: ./.github/actions/report-error
+        uses: ./.github/actions/playbook
         with:
           message: |
-            # ビルドエラーが発生しました
-            
-            ## 修正方法
-            
-            1. next buildのエラーをみる
-            2. エラーを修正する
-            3. npm run buildをする
+            # {{ github.workflow }} が失敗しました
+
+            ## 影響
+            - 何が影響を受けるか
+
+            ## 調査方法
+            - どのように調査するか
+
+            ## 修正方法 
+            - どのように対応するか
+
+            ## 修正後の確認方法
+            - 修正後にどのように確認するか    
 
 
 concurrency:
