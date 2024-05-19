@@ -13,9 +13,10 @@ runs:
         INPUT_MESSAGE: ${{ inputs.message }}
       with:
         script: |
+          const JOB_ID = process.env.GITHUB_JOB
           const message = process.env.INPUT_MESSAGE
             // {{ JOB_NAME }} 
-            .replace(/{{\s{0,5}JOB_NAME\s{0,5}}}/g, context.jobs[context.job.container.id].name);
+            .replace(/{{\s{0,5}JOB_NAME\s{0,5}}}/g, context.jobs[JOB_ID].name);
           core.summary.addRaw(message, true);
           await core.summary.write();
           core.setFailed(message);
